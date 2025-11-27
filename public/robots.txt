@@ -1,0 +1,18 @@
+# Five Clover Hotel Ilupeju - robots.txt
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*?*
+
+# Sitemap location
+Sitemap: https://fivecloverilupeju.fivecloverhotels.com/sitemap.xml
+
+Crawl-delay: 10
+
+# Example for blocking specific bots
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: / 

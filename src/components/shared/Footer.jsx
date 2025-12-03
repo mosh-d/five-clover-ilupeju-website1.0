@@ -237,6 +237,9 @@ export default function Footer() {
                 <a href="https://ringrubyhoteloduduwaikejagra.com/" target="_blank" className="text-2xl">
                   Oduduwa, Ikeja
                 </a>
+                <a href="https://ringrubyhoteloduduwaikejagra.com/" target="_blank" className="text-2xl">
+                  Value County
+                </a>
               </div>
             </div>
             <div

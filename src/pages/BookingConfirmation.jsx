@@ -522,8 +522,16 @@ export default function BookingConfirmationPage() {
                       !isFormValid() ? "cursor-pointer hover:bg-gray-300" : ""
                     }`}
                     onClick={handleConfirmBooking}
+                    disabled={isSubmitting}
                   >
-                    Confirm Booking
+                    {isSubmitting ? (
+                      <div className="flex items-center gap-2">
+                        <IoRefresh className="animate-spin" />
+                        Processing...
+                      </div>
+                    ) : (
+                      "Confirm Booking"
+                    )}
                   </Button>
                 </div>
               </div>

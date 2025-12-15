@@ -13,50 +13,25 @@ export default function CustomInput({
 }) {
   const isTextarea = type === "textarea";
 
-  // Logic for date input placeholder on mobile
-  // If it's a date input and empty, start as text to show placeholder
-  const [inputType, setInputType] = useState(
-    type === "date" && !value ? "text" : type
-  );
-
-  useEffect(() => {
-    // If it's a date input and has a value, ensure it's type='date'
-    if (type === "date" && value) {
-      setInputType("date");
-    }
-    // If it's a date input, has no value, and is NOT focused, switch to text to show placeholder
-    if (type === "date" && !value && document.activeElement.id !== id) {
-      setInputType("text");
-    }
-  }, [value, type, id]);
-
   const handleFocus = (e) => {
-    if (type === "date") {
-      // Directly switch type to date to allow immediate picker triggering
-      e.target.type = "date";
-      // Try to open the picker immediately
-      try {
-        if (e.target.showPicker) {
-          e.target.showPicker();
-        }
-      } catch (err) {
-        console.warn("Failed to show picker:", err);
-      }
-      // Update state to match
-      setInputType("date");
-    }
     if (onFocus) onFocus(e);
   };
 
   const handleBlur = (e) => {
-    if (type === "date" && !e.target.value) {
-      setInputType("text");
-    }
     if (onBlur) onBlur(e);
   };
 
   const handleClick = (e) => {
     if (type === "date") {
+      // Prevent default behavior to stop the browser from treating it like a text input (zooming, keyboard)
+      e.preventDefault();
+
+      // Ensure it's a date input
+      e.target.type = "date";
+
+      // Ensure focus (ButtonInput does this)
+      e.target.focus();
+
       try {
         if (e.target.showPicker) {
           e.target.showPicker();
@@ -105,18 +80,18 @@ export default function CustomInput({
             value={value}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            onClick={handleClick}
             {...props}
           />
         ) : (
           <input
-            type={inputType}
+            type={type}
             id={id}
             className="w-full text-lg focus:outline-none focus:ring-0 border-b border-b-[color:var(--text-color)]/50"
             placeholder={placeholder}
             value={value}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            onClick={handleClick}
             {...props}
           />
         )}

@@ -55,6 +55,18 @@ export default function CustomInput({
     if (onBlur) onBlur(e);
   };
 
+  const handleClick = (e) => {
+    if (type === "date") {
+      try {
+        if (e.target.showPicker) {
+          e.target.showPicker();
+        }
+      } catch (err) {
+        console.warn("Failed to show picker:", err);
+      }
+    }
+  };
+
   const placeholder = children || (type === "date" ? "dd/mm/yyyy" : undefined);
 
   return (
@@ -93,6 +105,7 @@ export default function CustomInput({
             value={value}
             onFocus={handleFocus}
             onBlur={handleBlur}
+            onClick={handleClick}
             {...props}
           />
         ) : (

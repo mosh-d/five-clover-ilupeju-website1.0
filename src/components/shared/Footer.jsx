@@ -84,10 +84,10 @@ export default function Footer() {
             >
               <RiPhoneLine size="3rem" />
               <a
-                href="tel:+2349111846282"
+                href="tel:+2349111846283"
                 className="border-b border-[color:var(--text-color)]/30 text-xl"
               >
-                +234 911 184 6282
+                +234 911 184 6283
               </a>
             </div>
             <div

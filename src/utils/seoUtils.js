@@ -25,7 +25,7 @@ export const generateHotelSchema = (hotelData = {}) => {
       latitude: "6.5535",
       longitude: "3.3665",
     },
-    telephone: "+2349111846282",
+    telephone: "+2349111846283",
     email: "info@fivecloverhotel.com",
     sameAs: [
       "https://www.facebook.com/fivecloverhotel",

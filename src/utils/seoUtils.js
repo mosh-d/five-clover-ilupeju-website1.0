@@ -2,52 +2,53 @@ export const generateHotelSchema = (hotelData = {}) => {
   const defaultData = {
     "@context": "https://schema.org",
     "@type": "Hotel",
-    "name": "Five Clover Hotel Ilupeju",
-    "description": "Luxury hotel accommodation in the heart of Ilupeju, Lagos. Experience comfort and excellent service at Five Clover Hotel.",
-    "url": "https://fivecloverilupeju.fivecloverhotels.com",
-    "logo": "https://fivecloverilupeju.fivecloverhotels.com/five%20clover%20logo.webp",
-    "priceRange": "$$",
-    "starRating": {
+    name: "Five Clover Hotel Ilupeju",
+    description:
+      "Luxury hotel accommodation in the heart of Ilupeju, Lagos. Experience comfort and excellent service at Five Clover Hotel.",
+    url: "https://fivecloverilupeju.fivecloverhotels.com",
+    logo: "https://fivecloverilupeju.fivecloverhotels.com/five%20clover%20logo.webp",
+    priceRange: "$$",
+    starRating: {
       "@type": "Rating",
-      "ratingValue": "4.5",
-      "bestRating": "5"
+      ratingValue: "4.5",
+      bestRating: "5",
     },
-    "address": {
+    address: {
       "@type": "PostalAddress",
-      "streetAddress": "1-5 Ogunlana Drive, Ilupeju",
-      "addressLocality": "Lagos",
-      "postalCode": "100001",
-      "addressCountry": "NG"
+      streetAddress: "23 Town Planning Way",
+      addressLocality: "Lagos",
+      postalCode: "102215",
+      addressCountry: "NG",
     },
-    "geo": {
+    geo: {
       "@type": "GeoCoordinates",
-      "latitude": "6.5535",
-      "longitude": "3.3665"
+      latitude: "6.5535",
+      longitude: "3.3665",
     },
-    "telephone": "+2348123456789",
-    "email": "info@fivecloverhotel.com",
-    "sameAs": [
+    telephone: "+2349111846282",
+    email: "info@fivecloverhotel.com",
+    sameAs: [
       "https://www.facebook.com/fivecloverhotel",
       "https://www.instagram.com/fivecloverhotel",
       "https://twitter.com/fivecloverhotel",
-      "https://www.fivecloverhotels.com"
+      "https://www.fivecloverhotels.com",
     ],
-    "openingHoursSpecification": [
+    openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
+        dayOfWeek: [
           "Monday",
           "Tuesday",
           "Wednesday",
           "Thursday",
           "Friday",
           "Saturday",
-          "Sunday"
+          "Sunday",
         ],
-        "opens": "00:00",
-        "closes": "23:59"
-      }
-    ]
+        opens: "00:00",
+        closes: "23:59",
+      },
+    ],
   };
 
   return JSON.stringify({ ...defaultData, ...hotelData });
@@ -57,22 +58,22 @@ export const generateBreadcrumbSchema = (items = []) => {
   const defaultItems = [
     {
       "@type": "ListItem",
-      "position": 1,
-      "name": "Home",
-      "item": "https://fivecloverilupeju.fivecloverhotels.com"
+      position: 1,
+      name: "Home",
+      item: "https://fivecloverilupeju.fivecloverhotels.com",
     },
     {
       "@type": "ListItem",
-      "position": 2,
-      "name": "Rooms",
-      "item": "https://fivecloverilupeju.fivecloverhotels.com/rooms"
-    }
+      position: 2,
+      name: "Rooms",
+      item: "https://fivecloverilupeju.fivecloverhotels.com/rooms",
+    },
   ];
 
   const breadcrumbList = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": items.length > 0 ? items : defaultItems
+    itemListElement: items.length > 0 ? items : defaultItems,
   };
 
   return JSON.stringify(breadcrumbList);

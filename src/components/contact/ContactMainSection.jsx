@@ -20,17 +20,22 @@ export default function ContactMainSection() {
         <h1 className="text-6xl font-bold">Get In Touch</h1>
         <p className="text-2xl font-semibold">
           Have any questions or need assistance? The team at Five Clover,
-          Ilupeju is always ready to ensure your stay is flawless. Don’t hesitate
-          to reach out—we’re here to help with anything you need.
+          Ilupeju is always ready to ensure your stay is flawless. Don’t
+          hesitate to reach out—we’re here to help with anything you need.
         </p>
       </div>
       <div
         data-component="BottomSection"
         className="flex max-md:flex-col px-[12rem] py-[6rem] gap-[6rem] w-full"
       >
-        <div data-component="ContactInfo" className="w-[50%] max-md:w-[100%] max-md:max-w-[100%] gap-[1.2rem] flex flex-col">
+        <div
+          data-component="ContactInfo"
+          className="w-[50%] max-md:w-[100%] max-md:max-w-[100%] gap-[1.2rem] flex flex-col"
+        >
           <div className="flex flex-col gap-[1.8rem] mb-[.6rem]">
-            <h1 className="text-6xl font-bold font-secondary">Contact Information</h1>
+            <h1 className="text-6xl font-bold font-secondary">
+              Contact Information
+            </h1>
             <p className="text-2xl font-secondary font-semibold">
               Get in touch with us through our contact details below and follow
               our social media pages
@@ -42,10 +47,10 @@ export default function ContactMainSection() {
           >
             <RiPhoneLine size="3rem" />
             <a
-              href=""
+              href="tel:+2349111846282"
               className="border-b border-[color:var(--text-color)]/30 text-xl"
             >
-              +234 911 563 8526
+              +234 911 184 6282
             </a>
           </div>
           <div

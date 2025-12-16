@@ -42,19 +42,28 @@ export default function Footer() {
               Subscribe
             </Button>
           </div> */}
-          <ul data-component="Socials" className="flex gap-[2.4rem] flex-wrap justify-center">
+          <ul
+            data-component="Socials"
+            className="flex gap-[2.4rem] flex-wrap justify-center"
+          >
             <li>
               <a href="">
                 <RiFacebookLine size="3rem" />
               </a>
             </li>
             <li>
-              <a href="https://www.instagram.com/fivecloverhotel_/" target="_blank">
+              <a
+                href="https://www.instagram.com/fivecloverhotel_/"
+                target="_blank"
+              >
                 <RiInstagramLine size="3rem" />
               </a>
             </li>
             <li>
-              <a href="https://www.tiktok.com/@fiveclover_hotel" target="_blank">
+              <a
+                href="https://www.tiktok.com/@fiveclover_hotel"
+                target="_blank"
+              >
                 <RiTiktokLine size="3rem" />
               </a>
             </li>
@@ -75,10 +84,10 @@ export default function Footer() {
             >
               <RiPhoneLine size="3rem" />
               <a
-                href="tel:+2349115638526"
+                href="tel:+2349111846282"
                 className="border-b border-[color:var(--text-color)]/30 text-xl"
               >
-                +234 911 563 8526
+                +234 911 184 6282
               </a>
             </div>
             <div
@@ -87,12 +96,12 @@ export default function Footer() {
             >
               <RiWhatsappLine size="3rem" />
               <a
-                href="https://wa.me/2349111846283"
+                href="https://wa.me/2349111846282"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border-b border-[color:var(--text-color)]/30 text-xl"
               >
-                +234 911 184 6283
+                +234 911 184 6282
               </a>
             </div>
             <div
@@ -120,14 +129,19 @@ export default function Footer() {
             className="flex gap-[4rem] w-full items-center"
           >
             <div className="h-[0.1rem] flex-1 bg-[color:var(--footer-text-color)]/50 min-w-[2rem] max-md:hidden"></div>
-            <h1 className="text-5xl font-bold font-secondary max-md:m-auto">Navigation</h1>
+            <h1 className="text-5xl font-bold font-secondary max-md:m-auto">
+              Navigation
+            </h1>
             <div className="h-[0.1rem] flex-1 bg-[color:var(--footer-text-color)]/50 min-w-[2rem] max-md:hidden"></div>
           </div>
           <div
             data-component="NavigationItemsContainer"
             className="flex justify-center w-full"
           >
-            <ul data-component="NavigationItems" className="flex flex-col md:flex-row gap-4 md:gap-[8rem] items-center">
+            <ul
+              data-component="NavigationItems"
+              className="flex flex-col md:flex-row gap-4 md:gap-[8rem] items-center"
+            >
               <li data-component="NavigationItem" className="text-xl">
                 {" "}
                 <NavLink to="/" end>
@@ -154,7 +168,9 @@ export default function Footer() {
             className="flex gap-[4rem] w-full items-center"
           >
             <div className="h-[0.1rem] flex-1 bg-[color:var(--footer-text-color)]/50 min-w-[2rem] max-md:hidden"></div>
-            <h1 className="text-5xl font-bold font-secondary max-md:m-auto">Hotels</h1>
+            <h1 className="text-5xl font-bold font-secondary max-md:m-auto">
+              Hotels
+            </h1>
             <div className="h-[0.1rem] flex-1 bg-[color:var(--footer-text-color)]/50 min-w-[2rem] max-md:hidden"></div>
           </div>
           <div
@@ -175,13 +191,25 @@ export default function Footer() {
                 data-component="HotelLinks"
                 className="flex flex-col gap-[1rem] max-md:text-center"
               >
-                <a href="https://fivecloverhotelmonastery.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://fivecloverhotelmonastery.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Monastry Road
                 </a>
-                <a href="https://fivecloverhotelabijo.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://fivecloverhotelabijo.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Abijo, GRA
                 </a>
-                <a href="https://fivecloverilupeju.fivecloverhotels.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://fivecloverilupeju.fivecloverhotels.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Ilupeju
                 </a>
               </div>
@@ -200,16 +228,32 @@ export default function Footer() {
                 data-component="HotelLinks"
                 className="flex flex-col gap-[1rem] max-md:text-center"
               >
-                <a href="https://www.caritasinnigbobihotel.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://www.caritasinnigbobihotel.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Igbobo
                 </a>
-                <a href="https://www.caritasinnilasanhotel.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://www.caritasinnilasanhotel.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Ilasan
                 </a>
-                <a href="https://www.caritasinnlekkihotel.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://www.caritasinnlekkihotel.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Lekki, Phase 1
                 </a>
-                <a href="https://www.caritasinnyabahotel.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://www.caritasinnyabahotel.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Yaba
                 </a>
               </div>
@@ -228,16 +272,32 @@ export default function Footer() {
                 data-component="HotelLinks"
                 className="flex flex-col gap-[1rem] max-md:text-center"
               >
-                <a href="https://ringrubyhotelsangotedo.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://ringrubyhotelsangotedo.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Sangotedo
                 </a>
-                <a href="https://ringrubyhotelesoikejagra.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://ringrubyhotelesoikejagra.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Eso, Ikeja
                 </a>
-                <a href="https://ringrubyhoteloduduwaikejagra.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://ringrubyhoteloduduwaikejagra.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Oduduwa, Ikeja
                 </a>
-                <a href="https://ringrubyhoteloduduwaikejagra.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://ringrubyhoteloduduwaikejagra.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Value County
                 </a>
               </div>
@@ -256,7 +316,11 @@ export default function Footer() {
                 data-component="HotelLinks"
                 className="flex flex-col gap-[1rem] max-md:text-center"
               >
-                <a href="https://www.thecordishotelikeja.com/" target="_blank" className="text-2xl">
+                <a
+                  href="https://www.thecordishotelikeja.com/"
+                  target="_blank"
+                  className="text-2xl"
+                >
                   Ikeja
                 </a>
               </div>

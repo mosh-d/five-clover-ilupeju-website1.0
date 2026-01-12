@@ -6,7 +6,7 @@ import MainNavBar from "../components/shared/MainNavBar";
 import axios from "axios";
 import { generateHotelSchema } from "../utils/seoUtils";
 import SEO from "../components/seo/SEO";
-import SafeHelmet from '../components/seo/SafeHelmet';
+import SafeHelmet from "../components/seo/SafeHelmet";
 
 const API_BASE_URL = "https://five-clover-shared-backend.onrender.com";
 
@@ -150,11 +150,16 @@ export default function RootLayout() {
     }
   };
 
-  // Fetch room data on component mount
   useEffect(() => {
-    fetchAvailableRooms(checkInDate, checkOutDate);
-  }, []);
-
+    if (checkInDate && checkOutDate) {
+      fetchAvailableRooms(checkInDate, checkOutDate);
+      const interval = setInterval(
+        () => fetchAvailableRooms(checkInDate, checkOutDate),
+        60000
+      );
+      return () => clearInterval(interval);
+    }
+  }, [checkInDate, checkOutDate, branchId]);
   // Update total payment when relevant state changes
   useEffect(() => {
     if (roomType && Object.keys(roomPrices).length > 0) {

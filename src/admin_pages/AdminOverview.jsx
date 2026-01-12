@@ -4,13 +4,13 @@ import axios from "axios";
 import Button from "../components/shared/Button";
 import { IoRefresh } from "react-icons/io5";
 
-const API_BASE_URL = 'https://five-clover-shared-backend.onrender.com';
+const API_BASE_URL = "https://five-clover-shared-backend.onrender.com";
 
 const ROOM_TYPE_MAP = {
   superior: 36,
   deluxe: 37,
   standard: 34,
-  executive: 35
+  executive: 35,
 };
 
 export default function AdminOverviewPage() {
@@ -32,10 +32,11 @@ export default function AdminOverviewPage() {
       setIsLoading(true);
       const roomTypeId = ROOM_TYPE_MAP[roomType];
       const data = await fetchRoomDetails();
-      
+
       // Find the room type in the response
-      const roomTypeData = data.room_types?.find(rt => rt.room_type_id === roomTypeId) || {};
-      
+      const roomTypeData =
+        data.room_types?.find((rt) => rt.room_type_id === roomTypeId) || {};
+
       setRoomDetails({
         maxCapacity: roomTypeData.max_capacity || 0,
         totalAvailableRooms: roomTypeData.available_rooms || 0,
@@ -52,23 +53,27 @@ export default function AdminOverviewPage() {
 
   useEffect(() => {
     loadRoomData();
+    const interval = setInterval(() => loadRoomData(), 30000);
+    return () => clearInterval(interval);
   }, [roomType]);
 
   const validateInput = (value) => {
     const numValue = parseInt(value, 10);
     if (isNaN(numValue)) {
-      setErrorMessage('Please enter a valid number');
+      setErrorMessage("Please enter a valid number");
       return false;
     }
     if (numValue < 0) {
-      setErrorMessage('Room count cannot be less than 0');
+      setErrorMessage("Room count cannot be less than 0");
       return false;
     }
     if (numValue > roomDetails.maxCapacity) {
-      setErrorMessage(`Cannot exceed maximum capacity of ${roomDetails.maxCapacity} rooms`);
+      setErrorMessage(
+        `Cannot exceed maximum capacity of ${roomDetails.maxCapacity} rooms`
+      );
       return false;
     }
-    setErrorMessage('');
+    setErrorMessage("");
     return true;
   };
 
@@ -76,40 +81,44 @@ export default function AdminOverviewPage() {
     if (!validateInput(tempRoomCount)) {
       return;
     }
-    
+
     try {
       const roomTypeId = ROOM_TYPE_MAP[roomType];
       const newCount = parseInt(tempRoomCount, 10);
-      
+
       // Ensure API_BASE_URL doesn't end with a slash to prevent double slashes
-      const baseUrl = API_BASE_URL.endsWith('/') ? API_BASE_URL.slice(0, -1) : API_BASE_URL;
+      const baseUrl = API_BASE_URL.endsWith("/")
+        ? API_BASE_URL.slice(0, -1)
+        : API_BASE_URL;
       const response = await axios.post(
         `${baseUrl}/api/rooms/manual-update`,
         {
           room_type_id: roomTypeId,
-          new_room_count: newCount
+          new_room_count: newCount,
         },
         {
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
-          withCredentials: true
+          withCredentials: true,
         }
       );
 
       setUpdateMessage(response.data.message);
       setIsEditing(false);
       await loadRoomData(); // Refresh the data
-      
+
       // Clear the message after 3 seconds
       setTimeout(() => setUpdateMessage(""), 5000);
     } catch (error) {
       console.error("Error updating room count:", error);
-      setUpdateMessage(error.response?.data?.message || "Failed to update room count");
+      setUpdateMessage(
+        error.response?.data?.message || "Failed to update room count"
+      );
       setTimeout(() => setUpdateMessage(""), 5000);
     }
   };
-    
+
   return (
     <>
       <div
@@ -127,7 +136,10 @@ export default function AdminOverviewPage() {
               className="flex items-center justify-center gap-2 text-xl w-56 py-4 bg-[color:var(--text-color)] text-white rounded cursor-pointer hover:bg-[color:var(--text-color)]/70 disabled:bg-[color:var(--text-color)]"
               title="Refresh room data"
             >
-              <IoRefresh size="1.5rem" className={isLoading ? "animate-spin" : ""} />
+              <IoRefresh
+                size="1.5rem"
+                className={isLoading ? "animate-spin" : ""}
+              />
               {isLoading ? "Refreshing..." : "Refresh Data"}
             </button>
           </div>
@@ -138,7 +150,10 @@ export default function AdminOverviewPage() {
               SUPERIOR
             </li>
           ) : (
-            <li className="border-b-[1px] border-[color:var(--emphasis)] cursor-pointer" onClick={() => setRoomType("superior")}>
+            <li
+              className="border-b-[1px] border-[color:var(--emphasis)] cursor-pointer"
+              onClick={() => setRoomType("superior")}
+            >
               SUPERIOR
             </li>
           )}
@@ -147,7 +162,10 @@ export default function AdminOverviewPage() {
               DELUXE
             </li>
           ) : (
-            <li className="border-b-[1px] border-[color:var(--emphasis)] cursor-pointer" onClick={() => setRoomType("deluxe")}>
+            <li
+              className="border-b-[1px] border-[color:var(--emphasis)] cursor-pointer"
+              onClick={() => setRoomType("deluxe")}
+            >
               DELUXE
             </li>
           )}
@@ -156,7 +174,10 @@ export default function AdminOverviewPage() {
               STANDARD
             </li>
           ) : (
-            <li className="border-b-[1px] border-[color:var(--emphasis)] cursor-pointer" onClick={() => setRoomType("standard")}>
+            <li
+              className="border-b-[1px] border-[color:var(--emphasis)] cursor-pointer"
+              onClick={() => setRoomType("standard")}
+            >
               STANDARD
             </li>
           )}
@@ -165,7 +186,10 @@ export default function AdminOverviewPage() {
               EXECUTIVE
             </li>
           ) : (
-            <li className="border-b-[1px] border-[color:var(--emphasis)] cursor-pointer" onClick={() => setRoomType("executive")}>
+            <li
+              className="border-b-[1px] border-[color:var(--emphasis)] cursor-pointer"
+              onClick={() => setRoomType("executive")}
+            >
               EXECUTIVE
             </li>
           )}
@@ -186,7 +210,9 @@ export default function AdminOverviewPage() {
               <div className="flex flex-col gap-[4rem] bg-[color:var(--white)] p-[1rem] shadow-lg h-full justify-between">
                 <p>Max Capacity</p>
                 <div className="w-full flex justify-end">
-                  <p className="font-black text-5xl">{roomDetails.maxCapacity}</p>
+                  <p className="font-black text-5xl">
+                    {roomDetails.maxCapacity}
+                  </p>
                 </div>
               </div>
             </div>
@@ -208,13 +234,15 @@ export default function AdminOverviewPage() {
                             validateInput(e.target.value);
                           }}
                           className={`w-24 text-5xl px-2 py-1 border rounded text-right ${
-                            errorMessage ? 'border-red-500' : 'border-gray-300'
+                            errorMessage ? "border-red-500" : "border-gray-300"
                           }`}
                           min="0"
                           max={roomDetails.maxCapacity}
                         />
                         {errorMessage && (
-                          <div className="text-xl text-red-600">{errorMessage}</div>
+                          <div className="text-xl text-red-600">
+                            {errorMessage}
+                          </div>
                         )}
                       </div>
                       <Button
@@ -226,7 +254,7 @@ export default function AdminOverviewPage() {
                       </Button>
                     </>
                   ) : (
-                    <p 
+                    <p
                       className="font-black text-5xl cursor-pointer hover:bg-gray-100 px-2 py-1 rounded"
                       onClick={() => setIsEditing(true)}
                     >
@@ -234,7 +262,9 @@ export default function AdminOverviewPage() {
                     </p>
                   )}
                   {updateMessage && (
-                    <div className="text-xl text-green-600 mt-1">{updateMessage}</div>
+                    <div className="text-xl text-green-600 mt-1">
+                      {updateMessage}
+                    </div>
                   )}
                 </div>
               </div>

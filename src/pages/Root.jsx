@@ -7,6 +7,7 @@ import axios from "axios";
 import { generateHotelSchema } from "../utils/seoUtils";
 import SEO from "../components/seo/SEO";
 import SafeHelmet from "../components/seo/SafeHelmet";
+import SchemaMarkup from "../components/shared/SchemaMarkup";
 
 const API_BASE_URL = "https://five-clover-shared-backend.onrender.com";
 
@@ -261,45 +262,8 @@ export default function RootLayout() {
         <meta property="og:url" content={metadata.url} />
         <meta property="og:type" content={metadata.type} />
         <meta property="og:image" content={metadata.image} />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Hotel",
-            name: "Five Clover Hotel Ilupeju",
-            description:
-              "Experience luxury and comfort at Five Clover Hotel Ilupeju. Book your stay at our premium hotel in the heart of Lagos, Nigeria.",
-            image:
-              "https://fivecloverilupeju.fivecloverhotels.com/five%20clover%20logo.webp",
-            url: "https://fivecloverilupeju.fivecloverhotels.com",
-            address: {
-              "@type": "PostalAddress",
-              streetAddress: "5-9 Ilupeju Bypass",
-              addressLocality: "Ilupeju",
-              addressRegion: "Lagos",
-              postalCode: "100211",
-              addressCountry: "NG",
-            },
-            geo: {
-              "@type": "GeoCoordinates",
-              latitude: 6.55,
-              longitude: 3.35,
-            },
-            priceRange: "₦30,000 - ₦150,000",
-            starRating: {
-              "@type": "Rating",
-              ratingValue: "4.5",
-              bestRating: "5",
-            },
-            telephone: "+234 812 345 6789",
-            email: "info@fivecloverhotel.com",
-            sameAs: [
-              "https://www.facebook.com/fivecloverhotel",
-              "https://www.instagram.com/fivecloverhotel",
-              "https://twitter.com/fivecloverhotel",
-            ],
-          })}
-        </script>
       </SafeHelmet>
+      <SchemaMarkup branchId={branchId} />
       <header>{!isHome && <MainNavBar />}</header>
       <main>
         <Outlet context={contextValue} />

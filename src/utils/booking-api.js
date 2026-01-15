@@ -1,25 +1,27 @@
-import axios from 'axios';
+import axios from "axios";
 
-const PRODUCTION_URL = 'https://five-clover-shared-backend.onrender.com';
-const LOCAL_URL = 'http://localhost:3000';
+const PRODUCTION_URL = "https://five-clover-shared-backend.onrender.com";
+const LOCAL_URL = "http://localhost:3000";
 let API_BASE_URL = PRODUCTION_URL;
 
 // Try to connect to local server first, fall back to production
 const testLocalConnection = async () => {
   try {
     // Try to connect to the root endpoint
-    const response = await axios.get(LOCAL_URL, { 
+    const response = await axios.get(LOCAL_URL, {
       timeout: 1000,
       // Don't throw on non-2xx status codes
-      validateStatus: () => true 
+      validateStatus: () => true,
     });
     // If we get any response, the server is up
     if (response.status) {
-      console.log('✅ Booking API: Connected to local development server');
+      console.log("✅ Booking API: Connected to local development server");
       return LOCAL_URL;
     }
   } catch (error) {
-    console.log('⚠️ Booking API: Local server not available, falling back to production');
+    console.log(
+      "⚠️ Booking API: Local server not available, falling back to production"
+    );
   }
   return PRODUCTION_URL;
 };
@@ -32,24 +34,26 @@ const testLocalConnection = async () => {
 
 export const createReservation = async (reservationData) => {
   try {
-    console.log('Sending reservation data to:', API_BASE_URL);
-    console.log('Payload:', JSON.stringify(reservationData, null, 2));
+    console.log("Sending reservation data to:", API_BASE_URL);
+    console.log("Payload:", JSON.stringify(reservationData, null, 2));
     // Ensure API_BASE_URL doesn't end with a slash to prevent double slashes
-    const baseUrl = API_BASE_URL.endsWith('/') ? API_BASE_URL.slice(0, -1) : API_BASE_URL;
+    const baseUrl = API_BASE_URL.endsWith("/")
+      ? API_BASE_URL.slice(0, -1)
+      : API_BASE_URL;
     const response = await axios.post(
       `${baseUrl}/api/reservations`,
       reservationData,
       {
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        withCredentials: true
+        withCredentials: true,
       }
     );
-    console.log('Reservation response:', response.data);
+    console.log("Reservation response:", response.data);
     return response.data;
   } catch (error) {
-    console.error('Error details:', {
+    console.error("Error details:", {
       message: error.message,
       response: error.response?.data,
       status: error.response?.status,
@@ -61,10 +65,11 @@ export const createReservation = async (reservationData) => {
 
 export const getRoomTypeId = (roomTypeName) => {
   const roomTypeMap = {
-    'Superior': 36,
-    'Deluxe': 37,
-    'Standard': 34,
-    'Executive': 35
+    Superior: 36,
+    "Executive Deluxe": 37,
+    Deluxe: 37, // Fallback
+    Standard: 34,
+    Executive: 35,
   };
   return roomTypeMap[roomTypeName] || null;
 };

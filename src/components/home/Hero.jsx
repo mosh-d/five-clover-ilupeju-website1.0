@@ -6,6 +6,7 @@ import Button from "../shared/Button";
 import ButtonInput from "../shared/ButtonInput";
 import Logo from "../shared/Logo";
 import heroImg from "../../assets/HERO.jpg";
+import mobileHeroImg from "../../assets/MOBILE-HERO.jpg";
 import heroVideo from "../../assets/HERO-VIDEO.mp4";
 
 // Define the context type (optional, for TypeScript; can omit if not using TS)
@@ -21,7 +22,9 @@ const useSharedContext = () => {
 
 export default function HeroSection() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" ? window.innerWidth < 640 : false);
+  const [isMobile, setIsMobile] = useState(
+    typeof window !== "undefined" ? window.innerWidth < 640 : false,
+  );
   const [videoLoaded, setVideoLoaded] = useState(false);
 
   const videoRef = useRef(null);

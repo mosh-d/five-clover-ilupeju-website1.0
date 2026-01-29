@@ -6,24 +6,26 @@ import { IoClose } from "react-icons/io5";
 const PRODUCTION_URL = "https://five-clover-shared-backend.onrender.com";
 const LOCAL_URL = "http://localhost:3000";
 
-// Try to connect to local server first, fall back to production
+// Determine API base URL based on environment
 const testLocalConnection = async () => {
+  // Skip localhost test in production builds
+  if (import.meta.env.PROD) {
+    console.log("📦 AdminBookings: Production build - using production server");
+    return PRODUCTION_URL;
+  }
+
+  // Only test localhost connection in development
   try {
-    // Try to connect to the root endpoint
     const response = await axios.get(LOCAL_URL, {
       timeout: 1000,
-      // Don't throw on non-2xx status codes
       validateStatus: () => true,
     });
-    // If we get any response, the server is up
     if (response.status) {
       console.log(" AdminBookings: Connected to local development server");
       return LOCAL_URL;
     }
   } catch (error) {
-    console.log(
-      " AdminBookings: Local server not available, falling back to production"
-    );
+    console.log(" AdminBookings: Local server not available, using production");
   }
   return PRODUCTION_URL;
 };
@@ -65,7 +67,7 @@ export default function AdminBookingsPage() {
             "Content-Type": "application/json",
           },
           withCredentials: true,
-        }
+        },
       );
       setBookings(response.data);
       setError(null);
@@ -91,7 +93,7 @@ export default function AdminBookingsPage() {
             "Content-Type": "application/json",
           },
           withCredentials: true,
-        }
+        },
       );
 
       // Show success message
@@ -110,7 +112,7 @@ export default function AdminBookingsPage() {
     try {
       console.log(
         "AdminBookings: Sending cancel request for reservation ID:",
-        reservationId
+        reservationId,
       );
       const payload = {
         reservation_id: reservationId,
@@ -126,7 +128,7 @@ export default function AdminBookingsPage() {
             "Content-Type": "application/json",
           },
           withCredentials: true,
-        }
+        },
       );
 
       console.log("Cancel response:", response.data);
@@ -146,7 +148,7 @@ export default function AdminBookingsPage() {
       });
       setError(
         err.response?.data?.message ||
-          "Failed to cancel reservation. Please try again."
+          "Failed to cancel reservation. Please try again.",
       );
     }
   };
@@ -168,7 +170,7 @@ export default function AdminBookingsPage() {
               "Content-Type": "application/json",
             },
             withCredentials: true,
-          }
+          },
         );
         // Refresh the bookings list after update
         fetchBookings();
@@ -204,7 +206,7 @@ export default function AdminBookingsPage() {
                 handleStatusUpdate(
                   booking.booking_id,
                   "confirmed",
-                  reservationId
+                  reservationId,
                 )
               }
               className="text-green-600 hover:underline cursor-pointer"
@@ -217,7 +219,7 @@ export default function AdminBookingsPage() {
                 handleStatusUpdate(
                   booking.booking_id,
                   "cancelled",
-                  reservationId
+                  reservationId,
                 )
               }
               className="text-red-600 hover:underline cursor-pointer"

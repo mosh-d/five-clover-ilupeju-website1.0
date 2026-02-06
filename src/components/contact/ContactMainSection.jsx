@@ -4,7 +4,6 @@ import {
   RiTiktokLine,
   RiFacebookLine,
   RiInstagramLine,
-  RiTwitterXLine,
   RiPhoneLine,
   RiWhatsappLine,
   RiMailLine,
@@ -71,10 +70,12 @@ export default function ContactMainSection() {
           >
             <RiFacebookLine size="3rem" />
             <a
-              href=""
+              href="https://www.facebook.com/Fivecloverhotel1/"
               className="border-b border-[color:var(--text-color)]/30 text-xl"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              FiveCloverHotels
+              Five Clover Hotel
             </a>
           </div>
           <div
@@ -83,10 +84,12 @@ export default function ContactMainSection() {
           >
             <RiInstagramLine size="3rem" />
             <a
-              href=""
+              href="https://www.instagram.com/fivecloverhotel_/"
               className="border-b border-[color:var(--text-color)]/30 text-xl"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              @fivecloverhotels
+              @fivecloverhotel_
             </a>
           </div>
           <div
@@ -95,22 +98,12 @@ export default function ContactMainSection() {
           >
             <RiTiktokLine size="3rem" />
             <a
-              href=""
+              href="https://www.tiktok.com/@fiveclover_hotel"
               className="border-b border-[color:var(--text-color)]/30 text-xl"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              @fivecloverhotel
-            </a>
-          </div>
-          <div
-            data-component="ContactItem"
-            className="flex gap-[1.2rem] items-center"
-          >
-            <RiTwitterXLine size="3rem" />
-            <a
-              href=""
-              className="border-b border-[color:var(--text-color)]/30 text-xl"
-            >
-              @fivecloverhotel
+              @fiveclover_hotel
             </a>
           </div>
         </div>

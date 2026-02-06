@@ -47,7 +47,10 @@ export default function Footer() {
             className="flex gap-[2.4rem] flex-wrap justify-center"
           >
             <li>
-              <a href="">
+              <a
+                href="https://www.facebook.com/Fivecloverhotel1/"
+                target="_blank"
+              >
                 <RiFacebookLine size="3rem" />
               </a>
             </li>

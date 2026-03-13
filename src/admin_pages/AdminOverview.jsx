@@ -4,7 +4,9 @@ import { useWebSocketContext } from "../context/WebSocketContext";
 import axios from "axios";
 import Button from "../components/shared/Button";
 
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "https://five-clover-shared-backend.onrender.com";
+const API_BASE_URL =
+  import.meta.env.VITE_BACKEND_URL ||
+  "https://five-clover-shared-backend.onrender.com";
 
 const ROOM_TYPE_MAP = {
   superior: 36,
@@ -28,39 +30,69 @@ export default function AdminOverviewPage() {
   const [errorMessage, setErrorMessage] = useState("");
   const [maintenanceMode, setMaintenanceMode] = useState(false);
 
-  const loadRoomData = useCallback(async (showLoading = true) => {
-    try {
-      if (showLoading) setIsLoading(true);
-      const roomTypeId = ROOM_TYPE_MAP[roomType];
-      const data = await fetchRoomDetails();
+  const loadRoomData = useCallback(
+    async (showLoading = true) => {
+      try {
+        if (showLoading) setIsLoading(true);
+        const roomTypeId = ROOM_TYPE_MAP[roomType];
+        const data = await fetchRoomDetails();
 
-      // Find the room type in the response
-      const roomTypeData =
-        data.room_types?.find((rt) => rt.room_type_id === roomTypeId) || {};
+        // Find the room type in the response
+        const roomTypeData =
+          data.room_types?.find((rt) => rt.room_type_id === roomTypeId) || {};
 
-      setRoomDetails({
-        maxCapacity: roomTypeData.max_capacity || 0,
-        totalAvailableRooms: roomTypeData.available_rooms || 0,
-        activeBookings: 0,
-        expiredBookings: 0,
-      });
-      setTempRoomCount(roomTypeData.available_rooms?.toString() || "0");
-    } catch (error) {
-      console.error("Error loading room data:", error);
-    } finally {
-      if (showLoading) setIsLoading(false);
-    }
-  }, [roomType]);
+        setRoomDetails({
+          maxCapacity: roomTypeData.max_capacity || 0,
+          totalAvailableRooms: roomTypeData.available_rooms || 0,
+          activeBookings: 0,
+          expiredBookings: 0,
+        });
+        setTempRoomCount(roomTypeData.available_rooms?.toString() || "0");
+      } catch (error) {
+        console.error("Error loading room data:", error);
+      } finally {
+        if (showLoading) setIsLoading(false);
+      }
+    },
+    [roomType],
+  );
 
-  // WebSocket handler - refetch data when rooms are updated
-  const handleRoomsUpdated = useCallback(() => {
-    console.log('🔄 [AdminOverview] Refreshing room data due to WebSocket update...');
-    loadRoomData(false);
-  }, [loadRoomData]);
+  // WebSocket handler - refetch data when rooms are updated (with dual fetch for reliability)
+  const handleRoomsUpdated = useCallback(
+    (data) => {
+      console.log(
+        "� [AdminOverview] WebSocket update received at:",
+        new Date().toISOString(),
+      );
+      console.log("📡 [AdminOverview] WebSocket data:", data);
+
+      // Only refresh if not currently editing to prevent interference
+      if (!isEditing) {
+        // First fetch after 2 seconds (immediate response)
+        setTimeout(() => {
+          console.log("🔄 [AdminOverview] Starting first fetch...");
+          loadRoomData(false);
+          console.log("🔄 [AdminOverview] First fetch triggered");
+        }, 2000);
+
+        // Second verification fetch after 5 seconds (ensure consistency)
+        setTimeout(() => {
+          console.log("🔄 [AdminOverview] Starting verification fetch...");
+          loadRoomData(false);
+          console.log("🔄 [AdminOverview] Verification fetch triggered");
+        }, 5000);
+      } else {
+        console.log(
+          "⏸️ [AdminOverview] Skipping refresh - user is currently editing",
+        );
+      }
+    },
+    [loadRoomData, isEditing],
+  );
 
   // Subscribe to WebSocket updates
   const { subscribe } = useWebSocketContext();
-  
+
   useEffect(() => {
     const unsubscribe = subscribe(handleRoomsUpdated);
     return unsubscribe;
@@ -69,15 +101,15 @@ export default function AdminOverviewPage() {
   const checkMaintenanceMode = useCallback(async () => {
     try {
       const data = await fetchMaintenanceMode();
-      
+
       console.log("🔧 Maintenance Mode Debug:", {
         raw_value: data.maintenance_mode,
         type: typeof data.maintenance_mode,
         is_one: data.maintenance_mode === 1,
         is_true: data.maintenance_mode === true,
-        full_response: data
+        full_response: data,
       });
-      
+
       if (data.maintenance_mode !== undefined) {
         setMaintenanceMode(data.maintenance_mode === 1);
       }
@@ -89,9 +121,12 @@ export default function AdminOverviewPage() {
   useEffect(() => {
     loadRoomData(true);
     checkMaintenanceMode(); // Initial check
-    
-    const maintenanceInterval = setInterval(() => checkMaintenanceMode(), 30000);
-    
+
+    const maintenanceInterval = setInterval(
+      () => checkMaintenanceMode(),
+      30000,
+    );
+
     return () => {
       clearInterval(maintenanceInterval);
     };
@@ -122,14 +157,33 @@ export default function AdminOverviewPage() {
       return;
     }
 
+    console.log("🚀 [AdminOverview] === STARTING MANUAL ROOM UPDATE ===");
+    console.log(
+      `📝 [AdminOverview] Update request: ${roomType} → ${tempRoomCount} rooms`,
+    );
+    console.log(
+      `⏰ [AdminOverview] Manual update started at:`,
+      new Date().toISOString(),
+    );
+
     try {
       const roomTypeId = ROOM_TYPE_MAP[roomType];
       const newCount = parseInt(tempRoomCount, 10);
+
+      console.log(
+        `🔍 [AdminOverview] Room mapping: ${roomType} → ID ${roomTypeId}`,
+      );
+      console.log(`📊 [AdminOverview] New count parsed: ${newCount}`);
 
       // Ensure API_BASE_URL doesn't end with a slash to prevent double slashes
       const baseUrl = API_BASE_URL.endsWith("/")
         ? API_BASE_URL.slice(0, -1)
         : API_BASE_URL;
+
+      console.log(
+        `🌐 [AdminOverview] Making request to: ${baseUrl}/api/rooms/manual-update`,
+      );
+
       const response = await axios.post(
         `${baseUrl}/api/rooms/manual-update`,
         {
@@ -144,18 +198,58 @@ export default function AdminOverviewPage() {
         },
       );
 
+      console.log("📤 [AdminOverview] Manual Update Response:", response.data);
+      console.log(`✅ [AdminOverview] Manual update completed successfully`);
+      console.log(
+        `⏰ [AdminOverview] Manual update completed at:`,
+        new Date().toISOString(),
+      );
+
+      // Update UI immediately with the confirmed response
+      const updatedCount =
+        response.data.new_available || response.data.requested_count;
+      if (updatedCount !== undefined) {
+        console.log(
+          `🔄 [AdminOverview] Updating UI immediately with confirmed count: ${updatedCount}`,
+        );
+        setRoomDetails((prev) => ({
+          ...prev,
+          totalAvailableRooms: updatedCount,
+        }));
+        setTempRoomCount(updatedCount.toString());
+        console.log(
+          "✅ [AdminOverview] UI updated with manual update response",
+        );
+      }
+
+      // First fetch after 2 seconds (immediate response)
+      setTimeout(() => {
+        console.log("🔄 [AdminOverview] Starting first fetch...");
+        loadRoomData(false);
+        console.log("🔄 [AdminOverview] First fetch triggered");
+      }, 2000);
+
+      // Second verification fetch after 5 seconds (ensure consistency)
+      setTimeout(() => {
+        console.log("🔄 [AdminOverview] Starting verification fetch...");
+        loadRoomData(false);
+        console.log("🔄 [AdminOverview] Verification fetch triggered");
+      }, 5000);
+
       setUpdateMessage(response.data.message);
       setIsEditing(false);
 
-      // Manually refresh after a short delay to ensure DB has committed
-      setTimeout(() => {
-        loadRoomData(false);
-      }, 500);
-
-      // Clear the message after 5 seconds
+      // Clear message after 5 seconds
       setTimeout(() => setUpdateMessage(""), 5000);
     } catch (error) {
-      console.error("Error updating room count:", error);
+      console.error("❌ [AdminOverview] Error updating room count:", error);
+      console.error("📝 [AdminOverview] Update error details:", {
+        error_message: error.message,
+        error_stack: error.stack,
+        response_status: error.response?.status,
+        response_data: error.response?.data,
+        timestamp: new Date().toISOString(),
+      });
       setUpdateMessage(
         error.response?.data?.message || "Failed to update room count",
       );

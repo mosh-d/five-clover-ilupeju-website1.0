@@ -93,7 +93,10 @@ export default function MainNavBar() {
       </div>
 
       {/* Mobile Menu */}
-      <MobileMenu isOpen={isMenuOpen && isMobile} onClose={() => setIsMenuOpen(false)} />
+      <MobileMenu
+        isOpen={isMenuOpen}
+        onClose={() => setIsMenuOpen(false)}
+      />
     </>
   );
 }

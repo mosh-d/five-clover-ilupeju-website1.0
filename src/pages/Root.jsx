@@ -151,6 +151,12 @@ export default function RootLayout() {
     }
   };
 
+  // Fetch room data on component mount (ensures booking page has rooms even without date change)
+  useEffect(() => {
+    fetchAvailableRooms(checkInDate, checkOutDate);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Auto-fetch room availability when dates change
   useEffect(() => {
     if (checkInDate && checkOutDate) {
       fetchAvailableRooms(checkInDate, checkOutDate);

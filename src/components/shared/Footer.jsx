@@ -199,7 +199,7 @@ export default function Footer() {
                   target="_blank"
                   className="text-2xl"
                 >
-                  Monastry Road
+                  Monastery Road
                 </a>
                 <a
                   href="https://www.abijo.fivecloverhotels.com/"

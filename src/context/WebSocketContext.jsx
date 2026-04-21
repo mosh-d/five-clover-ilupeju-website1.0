@@ -1,11 +1,11 @@
 import { createContext, useContext, useEffect, useRef, useState, useCallback } from 'react';
 import { io } from 'socket.io-client';
-import axios from 'axios';
+
 
 const WebSocketContext = createContext(null);
 
 const PRODUCTION_URL = import.meta.env.VITE_BACKEND_URL || "https://five-clover-shared-backend.onrender.com";
-const LOCAL_URL = "http://localhost:3000";
+
 const BRANCH_ID = import.meta.env.VITE_BRANCH_ID || '10';
 
 function WebSocketProvider({ children }) {
@@ -15,17 +15,7 @@ function WebSocketProvider({ children }) {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const initializeConnection = async () => {
-      let socketUrl = import.meta.env.VITE_BACKEND_URL || PRODUCTION_URL;
-      
-      if (!import.meta.env.PROD && !import.meta.env.VITE_BACKEND_URL) {
-        try {
-          const response = await axios.get(LOCAL_URL, { timeout: 800, validateStatus: () => true });
-          if (response.status) socketUrl = LOCAL_URL;
-        } catch (e) {
-          console.log("WebSocket: Local server not available, using production");
-        }
-      }
+    const socketUrl = import.meta.env.VITE_BACKEND_URL || PRODUCTION_URL;
 
       console.log('🔌 [WebSocketProvider] Connecting to:', socketUrl);
 
@@ -61,10 +51,7 @@ function WebSocketProvider({ children }) {
             try { callback(data); } catch (e) { console.error(e); }
           });
         }
-      });
-    };
-
-    initializeConnection();
+    });
 
     return () => {
       if (socketRef.current) socketRef.current.disconnect();

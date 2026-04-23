@@ -4,7 +4,7 @@ import { io } from 'socket.io-client';
 
 const WebSocketContext = createContext(null);
 
-const PRODUCTION_URL = import.meta.env.VITE_BACKEND_URL || "https://five-clover-shared-backend.onrender.com";
+const PRODUCTION_URL = "https://five-clover-shared-backend.onrender.com";
 
 const BRANCH_ID = import.meta.env.VITE_BRANCH_ID || '10';
 
@@ -15,42 +15,42 @@ function WebSocketProvider({ children }) {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketUrl = import.meta.env.VITE_BACKEND_URL || PRODUCTION_URL;
+    const socketUrl = PRODUCTION_URL;
 
-      console.log('🔌 [WebSocketProvider] Connecting to:', socketUrl);
+    console.log('🔌 [WebSocketProvider] Connecting to:', socketUrl);
 
-      socketRef.current = io(socketUrl, {
-        transports: ['websocket', 'polling'],
-        reconnection: true });
+    socketRef.current = io(socketUrl, {
+      transports: ['websocket', 'polling'],
+      reconnection: true });
 
-      socketRef.current.on('connect', () => {
-        console.log('✅ [WebSocketProvider] Connected:', socketRef.current.id);
-        setIsConnected(true);
-      });
+    socketRef.current.on('connect', () => {
+      console.log('✅ [WebSocketProvider] Connected:', socketRef.current.id);
+      setIsConnected(true);
+    });
 
-      socketRef.current.on('disconnect', (reason) => {
-        console.log('❌ [WebSocketProvider] Disconnected:', reason);
-        setIsConnected(false);
-      });
+    socketRef.current.on('disconnect', (reason) => {
+      console.log('❌ [WebSocketProvider] Disconnected:', reason);
+      setIsConnected(false);
+    });
 
-      // Handle rooms_updated
-      socketRef.current.on('rooms_updated', (data) => {
-        console.log('📢 [WebSocketProvider] Rooms updated:', data);
-        if (Number(data.branch_id) === Number(BRANCH_ID)) {
-          roomListenersRef.current.forEach(callback => {
-            try { callback(data); } catch (e) { console.error(e); }
-          });
-        }
-      });
+    // Handle rooms_updated
+    socketRef.current.on('rooms_updated', (data) => {
+      console.log('📢 [WebSocketProvider] Rooms updated:', data);
+      if (Number(data.branch_id) === Number(BRANCH_ID)) {
+        roomListenersRef.current.forEach(callback => {
+          try { callback(data); } catch (e) { console.error(e); }
+        });
+      }
+    });
 
-      // Handle new_reservation
-      socketRef.current.on('new_reservation', (data) => {
-        console.log('🔔 [WebSocketProvider] New reservation:', data);
-        if (Number(data.branch_id) === Number(BRANCH_ID)) {
-          reservationListenersRef.current.forEach(callback => {
-            try { callback(data); } catch (e) { console.error(e); }
-          });
-        }
+    // Handle new_reservation
+    socketRef.current.on('new_reservation', (data) => {
+      console.log('🔔 [WebSocketProvider] New reservation:', data);
+      if (Number(data.branch_id) === Number(BRANCH_ID)) {
+        reservationListenersRef.current.forEach(callback => {
+          try { callback(data); } catch (e) { console.error(e); }
+        });
+      }
     });
 
     return () => {

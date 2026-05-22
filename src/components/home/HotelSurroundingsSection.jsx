@@ -27,8 +27,8 @@ const TOP_ATTRACTIONS = [
     distance: "1.3 km",
   },
   {
-    title: "Kalakuta Museum",
-    distance: "5 km",
+    title: "National Museum Lagos",
+    distance: "4 km",
   },
 ];
 
@@ -38,20 +38,20 @@ const SUPERMARKETS = [
     distance: "3 km",
   },
   {
-    title: "Shoprite - The Palms Lekki",
-    distance: "8 km",
+    title: "Shoprite - Ikeja City Mall",
+    distance: "5 km",
   },
   {
     title: "Justrite Supermarket - Ilupeju",
     distance: "1 km",
   },
   {
-    title: "Ebeano Supermarket - Victoria Island",
-    distance: "15 km",
+    title: "Ebeano Supermarket - Opebi",
+    distance: "2 km",
   },
   {
-    title: "Palmgroove Market",
-    distance: "5 km",
+    title: "Ikeja City Mall",
+    distance: "6 km",
   },
 ];
 
@@ -80,20 +80,12 @@ const BEACHES = [
     distance: "15 km",
   },
   {
-    title: "Tarkwa Bay Beach",
-    distance: "22 km",
+    title: "Landmark Beach",
+    distance: "18 km",
   },
   {
-    title: "Lekki Leisure Lake",
-    distance: "25 km",
-  },
-  {
-    title: "Atican Beach",
-    distance: "28 km",
-  },
-  {
-    title: "Eleko Beach",
-    distance: "32 km",
+    title: "Oniru Beach",
+    distance: "20 km",
   },
 ];
 

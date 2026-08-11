@@ -39,24 +39,42 @@ export default function HeroSection() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Check if video is already loaded (cached) and force play for Safari
+  // Reveals the video (swapping out the static fallback image) only once
+  // playback has ACTUALLY started — not just once data has loaded. Safari
+  // blocks autoplay more readily on a video this size (11MB/88s is large
+  // for a background loop), and the previous version flipped videoLoaded
+  // on "data loaded" alone: if .play() was then rejected, the static image
+  // still got swapped out for a paused, unplayed video element, which is
+  // exactly what shows Safari's own "tap to play" affordance on top of the
+  // page's UI. Now the static image stays put — the correct fallback —
+  // unless a real, playing video replaces it.
   useEffect(() => {
-    if (videoRef.current) {
-      // Safari requires the muted property to be set on the DOM element
-      videoRef.current.muted = true;
+    const video = videoRef.current;
+    if (!video) return;
 
-      // Attempt to play programmatically
-      const playPromise = videoRef.current.play();
+    // Safari requires `muted` to be set as a DOM property (not just the
+    // JSX/HTML attribute) before autoplay is permitted.
+    video.muted = true;
+
+    const tryPlay = () => {
+      const playPromise = video.play();
       if (playPromise !== undefined) {
-        playPromise.catch((error) => {
-          console.log("Auto-play was prevented:", error);
-        });
+        playPromise
+          .then(() => setVideoLoaded(true))
+          .catch((error) => {
+            console.log("Auto-play was prevented:", error);
+            // Leave videoLoaded false — static hero image stays as the background.
+          });
       }
-    }
+    };
 
-    if (videoRef.current && videoRef.current.readyState >= 3) {
-      setVideoLoaded(true);
-    }
+    tryPlay();
+    // The very first attempt (above) can be rejected simply because not
+    // enough of the file has buffered yet, especially on Safari with a
+    // file this size — retry once the browser signals it actually has
+    // enough data to play without immediately stalling.
+    video.addEventListener("canplay", tryPlay, { once: true });
+    return () => video.removeEventListener("canplay", tryPlay);
   }, []);
 
   const toggleMenu = () => {
@@ -83,7 +101,13 @@ export default function HeroSection() {
           backgroundBlendMode: !videoLoaded ? "multiply" : "normal",
         }}
       >
-        {/* Background Video */}
+        {/* Background Video — videoLoaded (and therefore this element's
+            visibility) is driven entirely by the play()-promise/canplay
+            logic in the effect above, not by a loadeddata listener here;
+            see that effect's comment for why. preload="auto" hints Safari
+            to start buffering immediately, since it's otherwise more
+            conservative than Chrome about eagerly fetching a file this
+            size. */}
         <video
           ref={videoRef}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
@@ -93,7 +117,7 @@ export default function HeroSection() {
           muted
           loop
           playsInline
-          onLoadedData={() => setVideoLoaded(true)}
+          preload="auto"
         >
           <source src={heroVideo} type="video/mp4" />
         </video>

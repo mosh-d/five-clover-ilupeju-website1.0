@@ -5,8 +5,8 @@ export const generateHotelSchema = (hotelData = {}) => {
     name: "Five Clover Hotel Ilupeju",
     description:
       "Luxury hotel accommodation in the heart of Ilupeju, Lagos. Experience comfort and excellent service at Five Clover Hotel.",
-    url: "https://fivecloverilupeju.fivecloverhotels.com",
-    logo: "https://fivecloverilupeju.fivecloverhotels.com/five%20clover%20logo.webp",
+    url: "https://ilupeju.fivecloverhotels.com",
+    logo: "https://ilupeju.fivecloverhotels.com/five%20clover%20logo.webp",
     priceRange: "$$",
     starRating: {
       "@type": "Rating",
@@ -60,13 +60,13 @@ export const generateBreadcrumbSchema = (items = []) => {
       "@type": "ListItem",
       position: 1,
       name: "Home",
-      item: "https://fivecloverilupeju.fivecloverhotels.com",
+      item: "https://ilupeju.fivecloverhotels.com",
     },
     {
       "@type": "ListItem",
       position: 2,
       name: "Rooms",
-      item: "https://fivecloverilupeju.fivecloverhotels.com/rooms",
+      item: "https://ilupeju.fivecloverhotels.com/rooms",
     },
   ];
 

@@ -228,7 +228,7 @@ export default function RootLayout() {
 
   // Get current page metadata
   const getPageMetadata = () => {
-    const baseUrl = "https://fivecloverilupeju.fivecloverhotels.com";
+    const baseUrl = "https://ilupeju.fivecloverhotels.com";
     const defaultMetadata = {
       title: "Five Clover Hotel Ilupeju | Luxury Accommodation in Lagos",
       description:
@@ -236,6 +236,7 @@ export default function RootLayout() {
       url: `${baseUrl}${location.pathname}`,
       type: "website",
       image: "/five clover logo.webp",
+      robots: "index, follow",
     };
 
     const pageMetadata = {
@@ -249,25 +250,16 @@ export default function RootLayout() {
         description:
           "Discover the story behind Five Clover Hotel Ilupeju and our commitment to providing exceptional hospitality in Lagos.",
       },
-      "/rooms": {
-        title: "Our Rooms | Five Clover Hotel Ilupeju",
-        description:
-          "Explore our luxurious rooms and suites at Five Clover Hotel Ilupeju, designed for your comfort and relaxation.",
-      },
-      "/gallery": {
-        title: "Photo Gallery | Five Clover Hotel Ilupeju",
-        description:
-          "View our photo gallery showcasing the luxurious facilities and comfortable accommodations at Five Clover Hotel Ilupeju.",
-      },
       "/contact": {
         title: "Contact Us | Five Clover Hotel Ilupeju",
         description:
           "Get in touch with Five Clover Hotel Ilupeju. Our friendly staff is ready to assist with your booking and inquiries.",
       },
-      "/booking": {
-        title: "Book Your Stay | Five Clover Hotel Ilupeju",
+      "/booking-confirmation": {
+        title: "Booking Confirmation | Five Clover Hotel Ilupeju",
         description:
-          "Book your luxurious stay at Five Clover Hotel Ilupeju. Best rates guaranteed for our premium accommodations in Lagos.",
+          "Your booking confirmation at Five Clover Hotel Ilupeju.",
+        robots: "noindex, follow",
       },
     };
 
@@ -287,6 +279,8 @@ export default function RootLayout() {
         <meta property="og:url" content={metadata.url} />
         <meta property="og:type" content={metadata.type} />
         <meta property="og:image" content={metadata.image} />
+        <meta name="robots" content={metadata.robots} />
+        <link rel="canonical" href={metadata.url} />
       </SafeHelmet>
       <SchemaMarkup branchId={branchId} />
       <header>{!isHome && <MainNavBar />}</header>

@@ -6,7 +6,7 @@ Disallow: /api/
 Disallow: /*?*
 
 # Sitemap location
-Sitemap: https://fivecloverilupeju.fivecloverhotels.com/sitemap.xml
+Sitemap: https://ilupeju.fivecloverhotels.com/sitemap.xml
 
 Crawl-delay: 10
 

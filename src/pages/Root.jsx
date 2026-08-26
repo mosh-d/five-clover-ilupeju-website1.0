@@ -232,7 +232,7 @@ export default function RootLayout() {
     const defaultMetadata = {
       title: "Five Clover Hotel Ilupeju | Luxury Accommodation in Lagos",
       description:
-        "Experience luxury and comfort at Five Clover Hotel Ilupeju. Book your stay at our premium hotel in the heart of Lagos, Nigeria.",
+        "Five Clover Hotel Ilupeju delivers upscale comfort in the heart of Lagos - well-appointed rooms and attentive service in Ilupeju.",
       url: `${baseUrl}${location.pathname}`,
       type: "website",
       image: "/five clover logo.webp",
@@ -243,7 +243,7 @@ export default function RootLayout() {
       "/": {
         title: "Five Clover Hotel Ilupeju | Luxury Accommodation in Lagos",
         description:
-          "Experience luxury and comfort at Five Clover Hotel Ilupeju. Book your stay at our premium hotel in the heart of Lagos, Nigeria.",
+          "Five Clover Hotel Ilupeju delivers upscale comfort in the heart of Lagos - well-appointed rooms and attentive service in Ilupeju.",
       },
       "/about": {
         title: "About Us | Five Clover Hotel Ilupeju",
@@ -261,6 +261,17 @@ export default function RootLayout() {
           "Your booking confirmation at Five Clover Hotel Ilupeju.",
         robots: "noindex, follow",
       },
+      "/privacy-policy": {
+        title: "Privacy Policy | Five Clover Hotel Ilupeju",
+        description:
+          "Read Five Clover Hotel Ilupeju's privacy policy to learn how we collect, use, and protect your personal information.",
+      },
+      "/terms-of-service": {
+        title: "Terms and Conditions | Five Clover Hotel Ilupeju",
+        description:
+          "Read the terms and conditions that apply to bookings and website use at Five Clover Hotel Ilupeju.",
+      },
+
     };
 
     return { ...defaultMetadata, ...(pageMetadata[location.pathname] || {}) };

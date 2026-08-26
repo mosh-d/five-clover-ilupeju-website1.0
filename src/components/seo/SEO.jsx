@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet';
 
 const SEO = ({
   title = 'Five Clover Hotel Ilupeju | Luxury Accommodation in Lagos',
-  description = 'Experience luxury and comfort at Five Clover Hotel Ilupeju. Book your stay at our premium hotel in the heart of Lagos, Nigeria.',
+  description = 'Five Clover Hotel Ilupeju delivers upscale comfort in the heart of Lagos - well-appointed rooms and attentive service in Ilupeju.',
   keywords = 'hotel, lagos, accommodation, five clover, ilupeju, luxury hotel, nigeria, business hotel, vacation',
   image = 'https://ilupeju.fivecloverhotels.com/five%20clover%20logo.webp',
   url = typeof window !== 'undefined' ? window.location.href : 'https://ilupeju.fivecloverhotels.com',

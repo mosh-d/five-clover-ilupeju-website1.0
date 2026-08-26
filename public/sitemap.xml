@@ -3,23 +3,37 @@
   
     <url>
       <loc>https://ilupeju.fivecloverhotels.com/</loc>
-      <lastmod>2026-06-09T12:12:39.144Z</lastmod>
+      <lastmod>2026-08-26T19:06:31.698Z</lastmod>
       <changefreq>daily</changefreq>
       <priority>1</priority>
     </url>
   
     <url>
       <loc>https://ilupeju.fivecloverhotels.com/about</loc>
-      <lastmod>2026-06-09T12:12:39.146Z</lastmod>
+      <lastmod>2026-08-26T19:06:31.701Z</lastmod>
       <changefreq>weekly</changefreq>
       <priority>0.8</priority>
     </url>
   
     <url>
       <loc>https://ilupeju.fivecloverhotels.com/contact</loc>
-      <lastmod>2026-06-09T12:12:39.146Z</lastmod>
+      <lastmod>2026-08-26T19:06:31.701Z</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.6</priority>
+    </url>
+  
+    <url>
+      <loc>https://ilupeju.fivecloverhotels.com/privacy-policy</loc>
+      <lastmod>2026-08-26T19:06:31.701Z</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.3</priority>
+    </url>
+  
+    <url>
+      <loc>https://ilupeju.fivecloverhotels.com/terms-of-service</loc>
+      <lastmod>2026-08-26T19:06:31.701Z</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.3</priority>
     </url>
   
 </urlset>

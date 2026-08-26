@@ -16,13 +16,7 @@ export default function AboutMainSection() {
             Seamless Comfort and Hospitality
           </h1>
           <p className="text-3xl">
-            Five Clover, Ilupeju seamlessly blends modern comfort with the
-            warmth of West African hospitality, offering a unique and inviting
-            experience for our esteemed guests. Located in the serene and
-            upscale area of Ilupeju, Lagos, our hotel offers a balanced mix of
-            relaxation, workspaces, and proximity to popular destinations,
-            making it a top choice for travelers seeking comfort and convenience
-            in Ilupeju.
+            In the well-connected Ilupeju district, Five Clover brings together modern comfort and the genuine warmth of West African hospitality. The hotel gives guests a relaxed, practical base for both work and rest, right in one of Lagos's more central neighborhoods.
           </p>
         </div>
         <div data-component="Block2" className="flex flex-col w-full">
@@ -41,19 +35,11 @@ export default function AboutMainSection() {
               data-component="Block2Text"
               className="flex flex-col gap-[1.8rem] font-secondary bg-[color:var(--accent-2)] w-[100%] p-[12rem] max-md:p-[6rem] max-sm:p-[4rem]"
             >
-              <h1 className="text-6xl font-bold">
+              <h2 className="text-6xl font-bold">
                 Your Ideal Retreat for Comfort and Convenience
-              </h1>
+              </h2>
               <p className="text-3xl">
-                Welcome to a new standard of hospitality in Ilupeju. The Five
-                Clover Inn is a modern hotel located in the peaceful Ilupeju
-                area. It offers a perfect environment for both business and
-                leisure travelers by combining comfort, functionality, and
-                elegance. The inn features a variety of well-appointed rooms
-                designed for relaxation, including king-sized beds with
-                luxurious bedding, a coffee station with complimentary packages,
-                air conditioning, free Wi-Fi, flat-screen TVs, and ensuite
-                bathrooms.
+                Five Clover Inn sets a new hospitality standard in Ilupeju, built for business and leisure travelers who want comfort without complication. Every room is fitted with king-sized beds and premium bedding, a complimentary coffee station, air conditioning, free Wi-Fi, a flat-screen TV, and a private ensuite bathroom.
               </p>
             </div>
           </div>
@@ -63,16 +49,11 @@ export default function AboutMainSection() {
               data-component="Block2Text"
               className="flex flex-col gap-[1.8rem] font-secondary bg-[color:var(--accent-2)] w-[100%] p-[12rem] max-md:p-[6rem] max-sm:p-[4rem]"
             >
-              <h1 className="text-6xl font-bold">
+              <h2 className="text-6xl font-bold">
                 Experience Tranquil Stays with Unmatched Security
-              </h1>
+              </h2>
               <p className="text-3xl">
-                Five Clover is a modern hotel located in the peaceful Ilupeju
-                area. We ensure a secure environment with advanced surveillance
-                systems and a dedicated team, providing peace of mind throughout
-                your stay. We offer more than just a place to stay; we provide a
-                luxurious experience marked by comfort, security, and
-                personalized service.
+                Security matters at Five Clover Ilupeju - the property runs on advanced surveillance and a dedicated on-site team, so guests can properly unwind. It's a stay shaped by comfort, safety, and service that goes beyond the basics.
               </p>
             </div>
             <div
@@ -92,18 +73,15 @@ export default function AboutMainSection() {
           className="bg-[color:var(--text-color)] p-[6rem] flex max-sm:flex-col gap-[6rem] text-[var(--white)] font-secondary"
         >
           <div className="flex flex-col gap-[1.8rem]">
-            <h1 className="text-6xl font-secondary font-bold">Our Vision</h1>
+            <h2 className="text-6xl font-secondary font-bold">Our Vision</h2>
             <p className="text-3xl">
-              To be an organically developed global hotel management company
-              that excels in its core components of place, service,
-              people and system.
+              Our goal stretches past any single property - an organically grown hotel group that leads on place, service, people, and system.
             </p>
           </div>
           <div className="flex flex-col gap-[1.8rem]">
-            <h1 className="text-6xl font-secondary font-bold">Our Mission</h1>
+            <h2 className="text-6xl font-secondary font-bold">Our Mission</h2>
             <p className="text-3xl">
-              Our mission is to be the most hospitable company in the world by
-              creating world-class experiences for guests.
+              For Five Clover Ilupeju, that means one commitment: making your stay the most hospitable part of your trip to Lagos.
             </p>
           </div>
         </div>

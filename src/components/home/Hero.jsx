@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink, useOutletContext } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import MobileMenu from "../shared/MobileMenu";
@@ -7,6 +7,10 @@ import ButtonInput from "../shared/ButtonInput";
 import Logo from "../shared/Logo";
 import heroImg from "../../assets/HERO.jpg";
 import mobileHeroImg from "../../assets/MOBILE-HERO.jpg";
+// LIVE AND WORKING — DO NOT DELETE AS UNUSED. See the <video> element below
+// for the full history; this import and its 11MB asset were both removed
+// once already as "dead code" and had to be recovered from git.
+import heroVideo from "../../assets/HERO-VIDEO.mp4";
 
 // Define the context type (optional, for TypeScript; can omit if not using TS)
 const useSharedContext = () => {
@@ -24,6 +28,9 @@ export default function HeroSection() {
   const [isMobile, setIsMobile] = useState(
     typeof window !== "undefined" ? window.innerWidth < 640 : false,
   );
+  const [videoLoaded, setVideoLoaded] = useState(false);
+
+  const videoRef = useRef(null);
 
   // Update mobile state on window resize
   useEffect(() => {
@@ -33,6 +40,44 @@ export default function HeroSection() {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Reveals the video (swapping out the static fallback image) only once
+  // playback has ACTUALLY started — not just once data has loaded. Safari
+  // blocks autoplay more readily on a video this size (11MB/88s is large
+  // for a background loop), and the previous version flipped videoLoaded
+  // on "data loaded" alone: if .play() was then rejected, the static image
+  // still got swapped out for a paused, unplayed video element, which is
+  // exactly what shows Safari's own "tap to play" affordance on top of the
+  // page's UI. Now the static image stays put — the correct fallback —
+  // unless a real, playing video replaces it.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Safari requires `muted` to be set as a DOM property (not just the
+    // JSX/HTML attribute) before autoplay is permitted.
+    video.muted = true;
+
+    const tryPlay = () => {
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => setVideoLoaded(true))
+          .catch((error) => {
+            console.log("Auto-play was prevented:", error);
+            // Leave videoLoaded false — static hero image stays as the background.
+          });
+      }
+    };
+
+    tryPlay();
+    // The very first attempt (above) can be rejected simply because not
+    // enough of the file has buffered yet, especially on Safari with a
+    // file this size — retry once the browser signals it actually has
+    // enough data to play without immediately stalling.
+    video.addEventListener("canplay", tryPlay, { once: true });
+    return () => video.removeEventListener("canplay", tryPlay);
   }, []);
 
   const toggleMenu = () => {
@@ -53,11 +98,64 @@ export default function HeroSection() {
         data-component="HeroSection"
         className="relative bg-no-repeat bg-cover bg-center h-screen min-h-[80rem]"
         style={{
-          backgroundImage:
-            `linear-gradient(to bottom, hsla(38, 50%, 10%, .9), hsla(38, 50%, 10%, .9)), url(${isMobile ? mobileHeroImg : heroImg})`,
-          backgroundBlendMode: "multiply",
+          backgroundImage: !videoLoaded
+            ? `linear-gradient(to bottom, hsla(38, 50%, 10%, .9), hsla(38, 50%, 10%, .9)), url(${isMobile ? mobileHeroImg : heroImg})`
+            : "none",
+          backgroundBlendMode: !videoLoaded ? "multiply" : "normal",
         }}
       >
+        {/* ============================================================
+            THIS VIDEO HERO IS LIVE AND WORKING. DO NOT REMOVE IT.
+
+            It was deleted once (2026-08-26, commit 47f0a8b, "Remove dead
+            hero-video code") along with its 11MB HERO-VIDEO.mp4 asset, and
+            had to be restored from git history. It was never dead.
+
+            Why it can LOOK dead on a quick read, so the same mistake isn't
+            made a third time:
+              * This element renders at opacity-0 and only fades in once
+                play() actually resolves, so the "normal" first paint really
+                is an invisible <video> over the static hero image. That is
+                the intended fallback behaviour, not a disabled feature.
+              * videoLoaded is never set from JSX here — it is set by the
+                effect above, so nothing in this block visibly assigns it.
+              * An 11MB .mp4 in src/assets reads like leftover bloat. It is
+                the hero. Ilupeju is the only site that has one.
+
+            Mechanics: visibility is driven entirely by the play()-promise/
+            canplay logic in the effect above, not by a loadeddata listener
+            here — see that effect's comment for why. preload="auto" hints
+            Safari to start buffering immediately, since it's otherwise more
+            conservative than Chrome about eagerly fetching a file this size.
+            The file is already H.264 (re-encoded from HEVC for browser
+            compatibility) and 720p/capped-fps to fix production stutter —
+            both hard-won; don't re-encode it casually.
+            ============================================================ */}
+        <video
+          ref={videoRef}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+            videoLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+        >
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+
+        {/* Dark overlay for video */}
+        <div
+          className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
+            videoLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            background:
+              "linear-gradient(to bottom, hsla(38, 50%, 10%, .9), hsla(38, 50%, 10%, .9))",
+            mixBlendMode: "multiply",
+          }}
+        />
         <div
           data-component="Navbar"
           className="relative z-10 border-b border-[var(--emphasis)]/30 py-4 px-4 md:px-8"

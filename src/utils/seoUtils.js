@@ -15,7 +15,7 @@ export const generateHotelSchema = (hotelData = {}) => {
     },
     address: {
       "@type": "PostalAddress",
-      streetAddress: "23 Town Planning Way",
+      streetAddress: "PZ Park, 36 Town Planning Way, Ilupeju",
       addressLocality: "Lagos",
       postalCode: "102215",
       addressCountry: "NG",

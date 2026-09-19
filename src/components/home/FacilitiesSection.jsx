@@ -10,6 +10,7 @@ import { TbMoodHappy } from "react-icons/tb";
 import { PiBathtub, PiWashingMachineLight } from "react-icons/pi";
 import { FaUmbrellaBeach } from "react-icons/fa6";
 import { AiOutlineSafety } from "react-icons/ai";
+import { Reveal, RevealGroup, RevealItem, Words } from "../shared/guestMotion";
 
 export default function FacilitiesSection() {
   const MOST_POPULAR_SERVICES = [
@@ -125,18 +126,18 @@ export default function FacilitiesSection() {
           data-component="FacilitiesSectionHeading"
           className="flex flex-col gap-[1.8rem]"
         >
-          <h2 className="text-6xl font-secondary font-bold">Facilities</h2>
-          <p className="font-secondary text-3xl font-semibold">
+          <Words text="Facilities" className="text-6xl font-secondary font-bold" />
+          <Reveal as="p" delay={0.2} className="font-secondary text-3xl font-semibold">
             Great facilities!
-          </p>
+          </Reveal>
         </div>
         <div data-component="FacilitiesMidSection" className="flex flex-col gap-[1.8rem]">
           <h2 className="text-4xl font-secondary font-bold">Most Popular Services</h2>
-          <div
+          <RevealGroup stagger={0.06}
             className="flex flex-wrap gap-[2.4rem] w-full"
           >
             {MOST_POPULAR_SERVICES.map((service, index) => (
-              <div
+              <RevealItem y={12} scale={0.85}
                 key={index}
                 data-component="FacilitiesMidSectionItem"
                 className="flex items-center gap-[2.4rem]"
@@ -153,16 +154,16 @@ export default function FacilitiesSection() {
                 >
                   {service.text}
                 </p>
-              </div>
+              </RevealItem>
             ))}
-          </div>
+          </RevealGroup>
         </div>
-        <div
+        <RevealGroup stagger={0.07} amount={0.1}
           data-component="FacilitiesContentWrapper"
           className="flex flex-wrap gap-[4.8rem] w-full justify-center"
         >
           {SERVICES.map((service, index) => (
-            <div
+            <RevealItem y={32}
               key={index}
               data-component="FacilitiesContentItem"
               className="flex flex-col gap-[2rem] w-[35rem] border-[1px] border-[color:var(--light-gray)]/40 p-[1rem] bg-[color:var(--accent-2)]/30 rounded-lg text-[var(--text-color)]"
@@ -199,9 +200,9 @@ export default function FacilitiesSection() {
                   </div>
                 ))}
               </div>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </div>
     </>
   );

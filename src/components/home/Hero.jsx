@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import { useScroll, useTransform, useReducedMotion } from "motion/react";
+import { MotionDiv, EASE_OUT } from "../shared/motion";
+import { Words } from "../shared/guestMotion";
 import { NavLink, useOutletContext } from "react-router-dom";
 import { FiMenu, FiX } from "react-icons/fi";
 import MobileMenu from "../shared/MobileMenu";
@@ -84,6 +87,19 @@ export default function HeroSection() {
     setIsMenuOpen(!isMenuOpen);
   };
 
+  // The hero's motion (2026-09-19). On load, one arrival in reading order:
+  // the photo settles from a slight zoom while the nav drops in, the welcome
+  // rises word by word, then the booking controls - fully in place within
+  // ~1.7s, since they're what a visitor came to use. On scroll, the photo
+  // drifts down at a quarter of the scroll speed, so the hero reads as a
+  // window onto the hotel rather than a flat banner. The drift is a plain
+  // scroll-linked style, which reducedMotion doesn't reach - so it's zeroed
+  // here for anyone who asks for reduced motion.
+  const heroRef = useRef(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
+  const photoY = useTransform(scrollYProgress, [0, 1], ["0%", reduceMotion ? "0%" : "25%"]);
+
   // Access shared state from Outlet context
   const {
     checkInDate,
@@ -95,68 +111,87 @@ export default function HeroSection() {
   return (
     <>
       <div
+        ref={heroRef}
         data-component="HeroSection"
-        className="relative bg-no-repeat bg-cover bg-center h-screen min-h-[80rem]"
-        style={{
-          backgroundImage: !videoLoaded
-            ? `linear-gradient(to bottom, hsla(38, 50%, 10%, .9), hsla(38, 50%, 10%, .9)), url(${isMobile ? mobileHeroImg : heroImg})`
-            : "none",
-          backgroundBlendMode: !videoLoaded ? "multiply" : "normal",
-        }}
+        className="relative overflow-hidden h-screen min-h-[80rem]"
       >
-        {/* ============================================================
-            THIS VIDEO HERO IS LIVE AND WORKING. DO NOT REMOVE IT.
-
-            It was deleted once (2026-08-26, commit 47f0a8b, "Remove dead
-            hero-video code") along with its 11MB HERO-VIDEO.mp4 asset, and
-            had to be restored from git history. It was never dead.
-
-            Why it can LOOK dead on a quick read, so the same mistake isn't
-            made a third time:
-              * This element renders at opacity-0 and only fades in once
-                play() actually resolves, so the "normal" first paint really
-                is an invisible <video> over the static hero image. That is
-                the intended fallback behaviour, not a disabled feature.
-              * videoLoaded is never set from JSX here — it is set by the
-                effect above, so nothing in this block visibly assigns it.
-              * An 11MB .mp4 in src/assets reads like leftover bloat. It is
-                the hero. Ilupeju is the only site that has one.
-
-            Mechanics: visibility is driven entirely by the play()-promise/
-            canplay logic in the effect above, not by a loadeddata listener
-            here — see that effect's comment for why. preload="auto" hints
-            Safari to start buffering immediately, since it's otherwise more
-            conservative than Chrome about eagerly fetching a file this size.
-            The file is already H.264 (re-encoded from HEVC for browser
-            compatibility) and 720p/capped-fps to fix production stutter —
-            both hard-won; don't re-encode it casually.
-            ============================================================ */}
-        <video
-          ref={videoRef}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
-            videoLoaded ? "opacity-100" : "opacity-0"
-          }`}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
+        {/* The photo - and the video that replaces it once it plays - is
+            its own layer, so it can zoom and drift without moving anything
+            drawn on top of it. */}
+        <MotionDiv
+          aria-hidden="true"
+          className="absolute inset-0"
+          style={{ y: photoY }}
+          initial={{ scale: 1.12 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 2.4, ease: EASE_OUT }}
         >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
+          <div
+            className="absolute inset-0 bg-no-repeat bg-cover bg-center"
+            style={{
+              backgroundImage: !videoLoaded
+                ? `linear-gradient(to bottom, hsla(38, 50%, 10%, .9), hsla(38, 50%, 10%, .9)), url(${isMobile ? mobileHeroImg : heroImg})`
+                : "none",
+              backgroundBlendMode: !videoLoaded ? "multiply" : "normal",
+            }}
+          />
+          {/* ============================================================
+              THIS VIDEO HERO IS LIVE AND WORKING. DO NOT REMOVE IT.
 
-        {/* Dark overlay for video */}
-        <div
-          className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
-            videoLoaded ? "opacity-100" : "opacity-0"
-          }`}
-          style={{
-            background:
-              "linear-gradient(to bottom, hsla(38, 50%, 10%, .9), hsla(38, 50%, 10%, .9))",
-            mixBlendMode: "multiply",
-          }}
-        />
-        <div
+              It was deleted once (2026-08-26, commit 47f0a8b, "Remove dead
+              hero-video code") along with its 11MB HERO-VIDEO.mp4 asset, and
+              had to be restored from git history. It was never dead.
+
+              Why it can LOOK dead on a quick read, so the same mistake isn't
+              made a third time:
+                * This element renders at opacity-0 and only fades in once
+                  play() actually resolves, so the "normal" first paint really
+                  is an invisible <video> over the static hero image. That is
+                  the intended fallback behaviour, not a disabled feature.
+                * videoLoaded is never set from JSX here — it is set by the
+                  effect above, so nothing in this block visibly assigns it.
+                * An 11MB .mp4 in src/assets reads like leftover bloat. It is
+                  the hero. Ilupeju is the only site that has one.
+
+              Mechanics: visibility is driven entirely by the play()-promise/
+              canplay logic in the effect above, not by a loadeddata listener
+              here — see that effect's comment for why. preload="auto" hints
+              Safari to start buffering immediately, since it's otherwise more
+              conservative than Chrome about eagerly fetching a file this size.
+              The file is already H.264 (re-encoded from HEVC for browser
+              compatibility) and 720p/capped-fps to fix production stutter —
+              both hard-won; don't re-encode it casually.
+              ============================================================ */}
+          <video
+            ref={videoRef}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${
+              videoLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          >
+            <source src={heroVideo} type="video/mp4" />
+          </video>
+
+          {/* Dark overlay for video */}
+          <div
+            className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ${
+              videoLoaded ? "opacity-100" : "opacity-0"
+            }`}
+            style={{
+              background:
+                "linear-gradient(to bottom, hsla(38, 50%, 10%, .9), hsla(38, 50%, 10%, .9))",
+              mixBlendMode: "multiply",
+            }}
+          />
+        </MotionDiv>
+        <MotionDiv
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.2 }}
           data-component="Navbar"
           className="relative z-10 border-b border-[var(--emphasis)]/30 py-4 px-4 md:px-8"
         >
@@ -226,16 +261,20 @@ export default function HeroSection() {
             </div>
             <div className="max-md:w-[24vw] lg:w-[14vw] w-[18vw]"></div>
           </div>
-        </div>
+        </MotionDiv>
 
         <div
           data-component="QuickCheckIn"
           className="absolute z-10 flex flex-col gap-[2rem] w-[50vw] max-sm:w-[80vw] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         >
-          <h1 className="font-secondary text-6xl font-[900] text-[color:var(--white)] text-center mb-[8rem]">
-            Welcome to Five Clover Hotel Ilupeju
-          </h1>
-          <div data-component="CheckingButtons">
+          <Words
+            as="h1"
+            onLoad
+            delay={0.35}
+            text="Welcome to Five Clover Hotel Ilupeju"
+            className="font-secondary text-6xl font-[900] text-[color:var(--white)] text-center mb-[8rem]"
+          />
+          <MotionDiv initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE_OUT, delay: 0.85 }} data-component="CheckingButtons">
             <ButtonInput
               variant="white"
               className="text-2xl w-[50%] p-[2.5rem_2rem_2rem_2rem]"
@@ -252,8 +291,8 @@ export default function HeroSection() {
             >
               Check out
             </ButtonInput>
-          </div>
-          <div data-component="ViewRoomsButton">
+          </MotionDiv>
+          <MotionDiv initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, ease: EASE_OUT, delay: 1.0 }} data-component="ViewRoomsButton">
             <a href="#available-rooms">
               <Button
                 variant="emphasis"
@@ -262,7 +301,7 @@ export default function HeroSection() {
                 View Rooms
               </Button>
             </a>
-          </div>
+          </MotionDiv>
         </div>
         {/* Mobile Menu */}
         <MobileMenu

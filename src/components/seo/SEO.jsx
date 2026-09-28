@@ -10,7 +10,6 @@ const SEO = ({
   noindex = false,
 }) => {
   const siteName = 'Five Clover Hotel Ilupeju';
-  const siteUrl = 'https://ilupeju.fivecloverhotels.com';
   const twitterHandle = '@fivecloverhotel';
 
   return (
